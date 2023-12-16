@@ -61,67 +61,7 @@ fun MainScreen(viewModel: SkinViewModel) {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            SkinList(skinList)
+            SkinApp(skinList)
         }
     }
-}
-
-@Composable
-fun SkinList(list: List<Skin>) {
-    LazyColumn (
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 8.dp)
-    ){
-        items(list) { skin ->
-            SkinItem(skin)
-        }
-    }
-
-}
-
-@Composable
-fun SkinItem(skin: Skin) {
-    var expanded by remember { mutableStateOf(false) }
-    Card(
-        modifier = Modifier.clickable { expanded = !expanded },
-        elevation = CardDefaults.cardElevation(8.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .background(Color(255, 220, 220))
-                .padding(8.dp)
-        ) {
-            AsyncImage(
-                model = skin.skin_image,
-                contentDescription = "챔피언 스킨 이미지",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(RoundedCornerShape(percent = 10)),
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center
-            ) {
-                TextSkin("${skin.theme} ${skin.name}")
-                TextRole("이 챔피언의 역할은 ${skin.role}와 ${skin.subrole} 입니다")
-            }
-        }
-        AnimatedVisibility(visible = expanded) {
-            skin.script?.let {Text(it)}
-        }
-    }
-}
-
-@Composable
-fun TextSkin(name :String) {
-    Text(name, fontSize = 25.sp)
-}
-
-@Composable
-fun TextRole(role: String) {
-    Text(role, fontSize = 15.sp)
 }
